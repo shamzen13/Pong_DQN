@@ -112,8 +112,10 @@ class PongEnv(gym.Env):
         #hardcoded a rule based opponent ( paddle 2 )
         if self.ball_y<self.paddle_2y + self.PADDLE_HEIGHT // 2:
             self.paddle_2y -= 5
+            self.reflect_ball("horizontal")
         elif self.ball_y > self.paddle_2y + self.PADDLE_HEIGHT // 2:
             self.paddle_2y += 5
+            self.reflect_ball("horizontal")
 
         #bounde from top/bottom
         if self.ball_y <= 0 or self.ball_y >= self.HEIGHT:
@@ -130,7 +132,6 @@ class PongEnv(gym.Env):
         if self.ball_x >= self.WIDTH-30 and self.paddle_2y < self.ball_y < self.paddle_2y + self.PADDLE_HEIGHT:
             self.ball_vx *= -1
             
-
             reward = [-1]
 
         #+1 point for left paddle
@@ -138,9 +139,7 @@ class PongEnv(gym.Env):
             reward = [-1]
             self.score_2 += 1
             done = True
-      
-
-        
+     
 
         #+1 point for right paddle
         if self.ball_x >= self.WIDTH:
